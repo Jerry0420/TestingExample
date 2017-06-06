@@ -19,7 +19,6 @@ class TestingExampleDataRequestTests: XCTestCase {
         super.setUp()
         parseJsonManagerTest = ParseJsonManager()
         searchMusicVCTest = (UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "searchMusicVC") as! SearchMusicViewController)
-        // Put setup code here. This method is called before the invocation of each test method in the class.
     }
     
     override func tearDown() {
@@ -27,6 +26,7 @@ class TestingExampleDataRequestTests: XCTestCase {
         parseJsonManagerTest = nil
         apiManagerTest = nil
         searchMusicVCTest = nil
+        
         super.tearDown()
     }
     
@@ -38,6 +38,7 @@ class TestingExampleDataRequestTests: XCTestCase {
         
         let itunesURL = "https://itunes.apple.com/search?"
         let fakeParameters = ["fake":"url"]
+        let url = APIManager.getQueryedURL(urlString: itunesURL, parameters: fakeParameters)
         
         //given
         weak var promiseInCallBack = expectation(description: "Status code: 200")
@@ -45,8 +46,8 @@ class TestingExampleDataRequestTests: XCTestCase {
         //when
         XCTAssertEqual(searchMusicVCTest?.searchResults.count, 0, "searchResults should be empty before the data task runs")
         
-        let url = URL(string: "https://itunes.apple.com/search?fake=url")
-        let urlResponse = HTTPURLResponse(url: url!, statusCode: 200, httpVersion: nil, headerFields: nil)
+        let urlResponse = HTTPURLResponse(url: url, statusCode: 200, httpVersion: nil, headerFields: nil)
+        
         apiManagerTest = ApiManagerMock(data: data, response: urlResponse, error: nil)
         searchMusicVCTest?.apiManager = apiManagerTest
         searchMusicVCTest?.parseJsonManager = parseJsonManagerTest
@@ -59,7 +60,7 @@ class TestingExampleDataRequestTests: XCTestCase {
                     return
                 }
                 
-                promise.fulfill()
+                promise.fulfill() //用於另一條thread中，要等待時間完成的
                 promiseInCallBack = nil
             }
         })
@@ -128,6 +129,7 @@ class TestingExampleDataRequestTests: XCTestCase {
         XCTAssertEqual(statusCode, 200)
     }
     
+    
     func testPerformanceExample() {
         // This is an example of a performance test case.
         self.measure {
@@ -136,4 +138,3 @@ class TestingExampleDataRequestTests: XCTestCase {
     }
     
 }
-

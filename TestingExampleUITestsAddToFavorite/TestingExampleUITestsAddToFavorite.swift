@@ -26,28 +26,24 @@ class TestingExampleUITestsAddToFavorite: XCTestCase {
     
     func testDataRequest() {
         
-//        app.navigationBars["歌曲搜集"].buttons["Add"].tap()
-//        let songNameOrArtistSearchField = app.searchFields["請輸入歌手或歌名......"]
-//        songNameOrArtistSearchField.tap()
-//
-//        songNameOrArtistSearchField.typeText("Swift")
-//        app.buttons["Search"].tap()
-//
-//        let cells = app.tables.cells
-//        cells.element(boundBy: 0).tap()
-//        
-//        let exists = NSPredicate(format: "exists == true")
+        app.navigationBars["歌曲搜集"].buttons["Add"].tap()
+        let textfieldNavigationBar = app.navigationBars["textField"]
+        let textfieldTextField = textfieldNavigationBar.textFields["textField"]
+        textfieldTextField.tap()
+        textfieldTextField.typeText("beatles")
         
+        let tablesQuery = app.tables
+        let cell = tablesQuery.cells.staticTexts["Here Comes the Sun"]
         
-        //        let tablesQuery = app.tables
-        //        let cell = tablesQuery.children(matching: .cell).element(boundBy: 0)
-        //        let swiftStaticText = cell.staticTexts["Swift"]
-        //        swiftStaticText.tap()
-        //        cell.staticTexts["Pull Up"].tap()
-        //        swiftStaticText.tap()
-        //        cell.buttons["Download"].tap()
-        //        tablesQuery.buttons["Pause"].tap()
-        //        tablesQuery.buttons["Cancel"].tap()
+        let exist = NSPredicate(format: "exists == true")
+        expectation(for: exist, evaluatedWith: cell, handler: nil)
+        
+        app.keyboards.buttons["return"].tap()
+        
+        waitForExpectations(timeout: 8, handler: nil)
+        
+        XCTAssert(cell.exists, "We didn't get the data!")
+    
     }
     
 }

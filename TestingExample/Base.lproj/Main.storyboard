@@ -60,7 +60,7 @@
                     <navigationItem key="navigationItem" title="歌曲搜集" prompt="" id="7Z9-Vh-YRs">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="0oo-x1-yQI">
                             <connections>
-                                <segue destination="dxF-Tb-lHX" kind="show" identifier="goSearch" id="Mr5-5R-rs8"/>
+                                <action selector="goToSearchMusicsVC:" destination="BYZ-38-t0r" id="92A-HO-VAW"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -87,7 +87,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="61" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="d6k-vX-KDp">
-                                <rect key="frame" x="0.0" y="108" width="414" height="628"/>
+                                <rect key="frame" x="0.0" y="64" width="414" height="672"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" textLabel="5h7-UD-YdA" detailTextLabel="Dco-Kp-mff" rowHeight="61" style="IBUITableViewCellStyleSubtitle" id="gUp-6J-4Cv">
@@ -113,9 +113,6 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
-                                        <accessibility key="accessibilityConfiguration">
-                                            <bool key="isElement" value="YES"/>
-                                        </accessibility>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
@@ -123,30 +120,49 @@
                                     <outlet property="delegate" destination="dxF-Tb-lHX" id="LfK-l4-e1F"/>
                                 </connections>
                             </tableView>
-                            <searchBar contentMode="redraw" text="" placeholder="請輸入歌手或歌名......" translatesAutoresizingMaskIntoConstraints="NO" id="tN4-uU-fV5">
-                                <rect key="frame" x="0.0" y="64" width="414" height="44"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </searchBar>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="61a-Yc-rmb">
+                                <rect key="frame" x="0.0" y="20" width="414" height="44"/>
+                                <items>
+                                    <navigationItem id="aIq-DK-FQ1">
+                                        <nil key="title"/>
+                                        <barButtonItem key="leftBarButtonItem" title="Back" id="bfA-k3-Ut3">
+                                            <connections>
+                                                <action selector="backToTotalCountVC:" destination="dxF-Tb-lHX" id="tUC-fW-9Vb"/>
+                                            </connections>
+                                        </barButtonItem>
+                                        <textField key="titleView" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="typing your fav. music..." textAlignment="natural" minimumFontSize="17" id="3Rf-XZ-Ncp">
+                                            <rect key="frame" x="120.00000000000001" y="7" width="174.33333333333334" height="30"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <accessibility key="accessibilityConfiguration" identifier="textField" label="textField">
+                                                <bool key="isElement" value="YES"/>
+                                            </accessibility>
+                                            <nil key="textColor"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <textInputTraits key="textInputTraits"/>
+                                        </textField>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="gDa-YW-U0C" firstAttribute="top" secondItem="d6k-vX-KDp" secondAttribute="bottom" id="2Uf-p5-KAK"/>
-                            <constraint firstItem="d6k-vX-KDp" firstAttribute="leading" secondItem="4cb-d4-upC" secondAttribute="leading" id="EKr-8Z-ZuA"/>
-                            <constraint firstItem="tN4-uU-fV5" firstAttribute="top" secondItem="cNS-Yc-H74" secondAttribute="bottom" id="T2p-BV-308"/>
-                            <constraint firstItem="d6k-vX-KDp" firstAttribute="top" secondItem="tN4-uU-fV5" secondAttribute="bottom" id="Uur-tl-pFI"/>
-                            <constraint firstAttribute="trailing" secondItem="d6k-vX-KDp" secondAttribute="trailing" id="YRW-x0-bid"/>
-                            <constraint firstAttribute="trailing" secondItem="tN4-uU-fV5" secondAttribute="trailing" id="c22-vJ-naI"/>
-                            <constraint firstItem="tN4-uU-fV5" firstAttribute="leading" secondItem="4cb-d4-upC" secondAttribute="leading" id="vYx-vc-3Iq"/>
+                            <constraint firstItem="d6k-vX-KDp" firstAttribute="top" secondItem="61a-Yc-rmb" secondAttribute="bottom" id="6RF-eU-IRN"/>
+                            <constraint firstItem="gDa-YW-U0C" firstAttribute="top" secondItem="d6k-vX-KDp" secondAttribute="bottom" id="8Gb-7g-m7z"/>
+                            <constraint firstAttribute="trailing" secondItem="61a-Yc-rmb" secondAttribute="trailing" id="Dbl-7U-dyP"/>
+                            <constraint firstItem="d6k-vX-KDp" firstAttribute="leading" secondItem="4cb-d4-upC" secondAttribute="leading" id="DgQ-HI-dH1"/>
+                            <constraint firstItem="61a-Yc-rmb" firstAttribute="top" secondItem="cNS-Yc-H74" secondAttribute="bottom" symbolic="YES" id="LEz-h1-qEK"/>
+                            <constraint firstAttribute="trailing" secondItem="d6k-vX-KDp" secondAttribute="trailing" id="N6W-47-5rS"/>
+                            <constraint firstItem="61a-Yc-rmb" firstAttribute="leading" secondItem="4cb-d4-upC" secondAttribute="leading" id="k8V-2M-GjU"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="searchBar" destination="tN4-uU-fV5" id="v0y-NU-6rb"/>
                         <outlet property="tableView" destination="d6k-vX-KDp" id="UfB-mS-Jzp"/>
+                        <outlet property="textField" destination="3Rf-XZ-Ncp" id="aP4-pk-ykc"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Rya-TL-X5G" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1708.6956521739132" y="799.72826086956525"/>
+            <point key="canvasLocation" x="1665" y="791"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="k93-AP-fDD">

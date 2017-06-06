@@ -61,14 +61,17 @@ class TotalCountViewController: UIViewController, TotalCountDelegate {
         
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    @IBAction func goToSearchMusicsVC(_ sender: UIBarButtonItem) {
         
-        if segue.identifier == "goSearch"{
-            if let searchMusicVC = segue.destination as? SearchMusicViewController{
-                searchMusicVC.currentCount = totalCount
-                searchMusicVC.delegate = self
-            }
-        }
+        let searchMusicVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "searchMusicVC") as! SearchMusicViewController
+        
+        searchMusicVC.currentCount = totalCount
+        searchMusicVC.delegate = self
+        
+        present(searchMusicVC, animated: true, completion: nil)
+        
+        
     }
+    
 }
 

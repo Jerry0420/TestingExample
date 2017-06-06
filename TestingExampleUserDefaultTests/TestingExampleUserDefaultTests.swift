@@ -66,5 +66,4 @@ class MockUserDefaults: UserDefaults {
             totalCountAfterChanged = true
         }
     }
-
 }

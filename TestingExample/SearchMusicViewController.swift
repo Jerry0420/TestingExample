@@ -10,8 +10,7 @@ import UIKit
 
 class SearchMusicViewController: UIViewController {
     
-    @IBOutlet weak var searchBar: UISearchBar!
-    
+    @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var tableView: UITableView!
     
     var apiManager : APIManager?
@@ -36,14 +35,13 @@ class SearchMusicViewController: UIViewController {
         parseJsonManager = ParseJsonManager()
         tableView.dataSource = self
         tableView.delegate = self
-        searchBar.delegate = self
-        
-        setSearchBarForAccessibility()
+        textField.delegate = self
     }
     
     func dismissKeyboard() {
-        searchBar.resignFirstResponder()
+        textField.resignFirstResponder()
     }
+    
     func getResultFrom(urlString: String, parameters: [String: Any], completion: @escaping (String) -> Void){
         
         apiManager?.requestWithURL(urlString: urlString, parameters: parameters, completion: { (data, response, error) in
@@ -72,16 +70,24 @@ class SearchMusicViewController: UIViewController {
         self.delegate?.totalCount(currentCount: self.currentCount)
     }
     
+    @IBAction func backToTotalCountVC(_ sender: UIBarButtonItem) {
+        
+        dismiss(animated: true, completion: nil)
+    }
+    
 }
 
-extension SearchMusicViewController: UISearchBarDelegate{
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+extension SearchMusicViewController: UITextFieldDelegate{
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         
-        if !searchBar.text!.isEmpty {
+        if !textField.text!.isEmpty {
+            
+            dismissKeyboard()
             
             UIApplication.shared.isNetworkActivityIndicatorVisible = true
             
-            let searchTerm = searchBar.text!
+            let searchTerm = textField.text!
             
             searchParameters = ["media":"music","entity":"song","term":"\(searchTerm)"]
             
@@ -90,13 +96,16 @@ extension SearchMusicViewController: UISearchBarDelegate{
                 if result == "Success"{
                     DispatchQueue.main.async {
                         self.tableView.reloadData()
-                        self.setCellForAccessibility()
+                        //                        self.setCellForAccessibility()
                         UIApplication.shared.isNetworkActivityIndicatorVisible = false
                     }
                 }
             })
         }
+        
+        return true
     }
+    
 }
 
 extension SearchMusicViewController : UITableViewDataSource{
@@ -134,19 +143,4 @@ extension SearchMusicViewController: UITableViewDelegate{
         return [addAction]
     }
     
-}
-
-extension SearchMusicViewController{
-    
-    func setSearchBarForAccessibility(){
-        searchBar.isAccessibilityElement = true
-        searchBar.accessibilityTraits = UIAccessibilityTraitSearchField
-        searchBar.accessibilityIdentifier = "請輸入歌手或歌名......"
-    }
-    
-    func setCellForAccessibility(){
-        tableView.isAccessibilityElement = true
-        tableView.cellForRow(at: IndexPath(row: 0, section: 0))?.isAccessibilityElement = true
-        tableView.cellForRow(at: IndexPath(row: 1, section: 0))?.isAccessibilityElement = true
-    }
 }

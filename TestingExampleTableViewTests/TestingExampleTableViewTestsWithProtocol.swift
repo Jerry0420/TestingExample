@@ -1,15 +1,15 @@
 //
-//  TestingExampleTableViewTests.swift
-//  TestingExampleTableViewTests
+//  TestingExampleTableViewTestsWithProtocol.swift
+//  TestingExample
 //
-//  Created by JerryWang on 2017/5/14.
+//  Created by JerryWang on 2017/5/17.
 //  Copyright © 2017年 Jerrywang. All rights reserved.
 //
 
 import XCTest
 @testable import TestingExample
 
-class TestingExampleTableViewTests: XCTestCase {
+class TestingExampleTableViewTestsWithProtocol: XCTestCase {
     
     var parseJsonManagerTest : ParseJsonManager?
     var apiManagerTest : APIManager?
@@ -17,7 +17,8 @@ class TestingExampleTableViewTests: XCTestCase {
     var tableView: UITableView?
     let itunesURL = "https://itunes.apple.com/search?"
     let fakeParameters = ["fake":"url"]
-    var url : URL!
+    
+    let session = MockURLSession()
     
     override func setUp() {
         super.setUp()
@@ -35,13 +36,16 @@ class TestingExampleTableViewTests: XCTestCase {
         //when
         XCTAssertEqual(searchMusicVCTest?.searchResults.count, 0, "searchResults should be empty before the data task runs")
         
-        url = APIManager.getQueryedURL(urlString: itunesURL, parameters: fakeParameters)
+        let url = URL(string: "https://itunes.apple.com/search?fake=url")
         let urlResponse = HTTPURLResponse(url: url!, statusCode: 200, httpVersion: nil, headerFields: nil)
         
-        apiManagerTest = ApiManagerMock(data: data, response: urlResponse, error: nil)
-        
+        apiManagerTest = APIManager(session: session)
         searchMusicVCTest?.apiManager = apiManagerTest
         searchMusicVCTest?.parseJsonManager = parseJsonManagerTest
+        
+        session.nextData = data
+        session.nextError = nil
+        session.nextResponse = urlResponse
     }
     
     override func tearDown() {
@@ -104,13 +108,6 @@ class TestingExampleTableViewTests: XCTestCase {
         
         waitForExpectations(timeout: 5, handler: nil)
         XCTAssertEqual(cell?.textLabel!.text!, "Dancing Queen", "Full name is not as expected")
-    }
-    
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
     }
     
 }
